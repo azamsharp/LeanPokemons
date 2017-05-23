@@ -11,19 +11,28 @@ import UIKit
 
 class PokemonDataSource : NSObject, UITableViewDataSource {
     
-    let cellIdentifier :String!
+    var cellIdentifier :String!
+    var configureCell:(UITableViewCell,Pokemon) -> ()
     
-    init(cellIdentifier :String) {
+    var items = [Pokemon]()
+    
+    init(cellIdentifier :String,configureCell : @escaping (UITableViewCell,Pokemon) -> ()) {
         
+        self.configureCell = configureCell
+        super.init()
+        self.cellIdentifier = cellIdentifier
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return self.items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath)
+        
+        let pokemon = items[indexPath.row]
+        self.configureCell(cell,pokemon)
         return cell
     }
     

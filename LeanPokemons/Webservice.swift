@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 typealias JSONDictionary = [String:Any]
 
@@ -47,7 +48,7 @@ protocol Url {
     var url :URL { get }
 }
 
-private let BASE_URL = URL(string:"https://still-wave-26435.herokuapp.com")!
+private let BASE_URL = URL(string:"https://still-wave-26435.herokuapp.come")!
 
 enum App {
    
@@ -86,6 +87,16 @@ extension App.ShoppingList : Url {
 
 class Webservice {
     
+    
+    func load<T>(resource :Resource<T>,container :ContainerViewController, build :@escaping (T?) -> UIViewController) {
+        
+        Webservice().load(resource) { items in
+            
+            container.add(content: build(items))
+        }
+        
+    }
+    
     func load<T>(_ resource :Resource<T>, completion:@escaping (T?) -> ()) {
         
         var request = URLRequest(url: resource.url)
@@ -110,6 +121,10 @@ class Webservice {
             if let data = data {
                 DispatchQueue.main.async {
                     completion(resource.parse(data))
+                }
+            } else {
+                DispatchQueue.main.async {
+                    completion(nil)
                 }
             }
             

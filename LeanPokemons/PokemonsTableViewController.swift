@@ -8,10 +8,25 @@
 
 import UIKit
 
-class PokemonsTableViewController: UITableViewController {
+class PokemonsTableViewController: UITableViewController, SegueHandler {
 
-    private var pokemons = [Pokemon]()
+    var pokemons = [Pokemon]()
     private var tableSource :TableDataSource<UITableViewCell,Pokemon>!
+    
+    enum SegueIdentifier :String {
+        case showItems = "showItems"
+    }
+    
+    init(pokemons :[Pokemon]) {
+       
+        
+        super.init(nibName: nil, bundle: nil)
+        self.pokemons = pokemons
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     
     override func viewDidLoad() {
        
@@ -19,24 +34,52 @@ class PokemonsTableViewController: UITableViewController {
         populatePokemons()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        switch segueIdentifier(for: segue) {
+            case .showItems:
+                print("show items")
+        }
+    }
+    
     private func populatePokemons() {
         
-        Webservice().load(Pokemon.all) { [unowned self] pokemons in
+        self.tableSource = TableDataSource(cellIdentifier: "Cell", items: pokemons) { cell, pokemon in
             
-            if let pokemons = pokemons {
-                
-                self.tableSource = TableDataSource(cellIdentifier: "Cell", items: pokemons) { cell, pokemon in
-                    
-                    cell.textLabel?.text = pokemon.name
-                }
-                
-                self.tableView.dataSource = self.tableSource
-                self.tableView.reloadData()
-            }
-            
+            cell.textLabel?.text = pokemon.name
         }
+        
+        self.tableView.dataSource = self.tableSource
+        self.tableView.reloadData()
+
+        
+        
+        
+//        Webservice().load(Pokemon.all) { [unowned self] pokemons in
+//            
+//            if var pokemons = pokemons {
+//                
+//                // making it empty!
+//                //pokemons.removeAll()
+//                
+//                if pokemons.isEmpty {
+//                    
+//                    // display an empty view instead of the table view
+//                    let emptyView = EmptyView(frame: self.tableView.frame)
+//                    self.view = emptyView
+//                    return 
+//                    
+//                }
+//                
+//                self.tableSource = TableDataSource(cellIdentifier: "Cell", items: pokemons) { cell, pokemon in
+//                    
+//                    cell.textLabel?.text = pokemon.name
+//                }
+//                
+//                self.tableView.dataSource = self.tableSource
+//                self.tableView.reloadData()
+//            }
         
     }
 
-    
 }
