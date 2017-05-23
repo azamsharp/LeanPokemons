@@ -19,7 +19,6 @@ class PokemonsTableViewController: UITableViewController, SegueHandler {
     
     init(pokemons :[Pokemon]) {
        
-        
         super.init(nibName: nil, bundle: nil)
         self.pokemons = pokemons
     }
