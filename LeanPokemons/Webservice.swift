@@ -48,7 +48,7 @@ protocol Url {
     var url :URL { get }
 }
 
-private let BASE_URL = URL(string:"https://still-wave-26435.herokuapp.come")!
+private let BASE_URL = URL(string:"https://still-wave-26435.herokuapp.com")!
 
 enum App {
    

@@ -50,34 +50,6 @@ class PokemonsTableViewController: UITableViewController, SegueHandler {
         
         self.tableView.dataSource = self.tableSource
         self.tableView.reloadData()
-
-        
-        
-        
-//        Webservice().load(Pokemon.all) { [unowned self] pokemons in
-//            
-//            if var pokemons = pokemons {
-//                
-//                // making it empty!
-//                //pokemons.removeAll()
-//                
-//                if pokemons.isEmpty {
-//                    
-//                    // display an empty view instead of the table view
-//                    let emptyView = EmptyView(frame: self.tableView.frame)
-//                    self.view = emptyView
-//                    return 
-//                    
-//                }
-//                
-//                self.tableSource = TableDataSource(cellIdentifier: "Cell", items: pokemons) { cell, pokemon in
-//                    
-//                    cell.textLabel?.text = pokemon.name
-//                }
-//                
-//                self.tableView.dataSource = self.tableSource
-//                self.tableView.reloadData()
-//            }
         
     }
 
