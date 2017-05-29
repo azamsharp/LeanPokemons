@@ -16,10 +16,11 @@ class PokemonDataSource : NSObject, UITableViewDataSource {
     
     var items = [Pokemon]()
     
-    init(cellIdentifier :String,configureCell : @escaping (UITableViewCell,Pokemon) -> ()) {
+    init(cellIdentifier :String, items :[Pokemon],configureCell : @escaping (UITableViewCell,Pokemon) -> ()) {
         
         self.configureCell = configureCell
         super.init()
+        self.items = items
         self.cellIdentifier = cellIdentifier
     }
     
