@@ -12,15 +12,33 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    //var containerVC :ContainerViewController!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        guard let rootVC = self.window?.rootViewController as? BaseTabBarViewController else {
-            fatalError("RootViewController not defined")
+        guard let containerVC = self.window?.rootViewController as? ContainerViewController else {
+            fatalError("")
         }
         
-        rootVC.delegate = rootVC
+        containerVC.load(resource: Pokemon.all) { pokemons in
+            
+            var p = pokemons
+            p.removeAll()
+            
+            if pokemons.isEmpty {
+                return EmptyViewController()
+            }
+            
+            return PokemonsTableViewController(pokemons: pokemons)
+            
+        }
+        
+        
+//        guard let rootVC = self.window?.rootViewController as? BaseTabBarViewController else {
+//            fatalError("RootViewController not defined")
+//        }
+//        
+//        rootVC.delegate = rootVC
         
         
         return true

@@ -30,7 +30,8 @@ class PokemonsTableViewController: UITableViewController, SegueHandler {
     override func viewDidLoad() {
        
         super.viewDidLoad()
-        populatePokemons()
+        self.tableView.reloadData()
+      //  populatePokemons()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -41,16 +42,20 @@ class PokemonsTableViewController: UITableViewController, SegueHandler {
         }
     }
     
-    private func populatePokemons() {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.pokemons.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        self.tableSource = TableDataSource(cellIdentifier: "Cell", items: pokemons) { cell, pokemon in
-            
-            cell.textLabel?.text = pokemon.name
-        }
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
         
-        self.tableView.dataSource = self.tableSource
-        self.tableView.reloadData()
+        cell.textLabel?.text = self.pokemons[indexPath.row].name
+        
+        return cell
+        
         
     }
-
+    
+   
 }

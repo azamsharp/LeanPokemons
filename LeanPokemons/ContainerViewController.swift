@@ -14,8 +14,39 @@ class ContainerViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        populateTableView()
+       // populateTableView()
     }
+    
+//    init<T>(resource :Resource<T>, build: @escaping (T) -> UIViewController) {
+//        
+//        super.init(nibName: nil, bundle: nil)
+//        
+//        Webservice().load(resource) { [unowned self] result in
+//            
+//            if let result = result {
+//                let content = build(result)
+//                self.add(content: content)
+//            }
+//        }
+//    }
+    
+    func load<T>(resource :Resource<T>, build: @escaping (T) -> UIViewController) {
+        
+        Webservice().load(resource) { [unowned self] result in
+            
+            if let result = result {
+                let content = build(result)
+                self.add(content: content)
+            }
+        }
+    }
+
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     
     private func populateTableView() {
         
@@ -23,7 +54,7 @@ class ContainerViewController : UIViewController {
             
             if let pokemons = pokemons {
                 
-                return self.instantiatePokemonTableViewController(pokemons: pokemons)
+               // add the data source
             }
             
             return EmptyViewController()
