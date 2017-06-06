@@ -8,21 +8,11 @@
 
 import UIKit
 
-class MyPokemonsViewController: UIViewController {
+class MyPokemonsViewController: UIViewController, LoginHandler {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let loggedIn = false
-        
-        if !loggedIn {
-            
-            guard let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") else {
-                fatalError("LoginViewController not found")
-            }
-            
-            self.present(loginVC, animated: true, completion: nil)
-        }
         
         // Do any additional setup after loading the view.
     }

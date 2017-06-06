@@ -23,13 +23,11 @@ class TableDataSource<CellType :UITableViewCell, Model> : NSObject, UITableViewD
         
         self.cellIdentifier = cellIdentifier
         self.items = items
-       
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.items.count
     }
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         

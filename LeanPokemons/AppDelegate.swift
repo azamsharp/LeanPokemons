@@ -17,26 +17,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-//        guard let containerVC = self.window?.rootViewController as? ContainerViewController else {
-//            fatalError("")
-//        }
-//        
-//        containerVC.load(resource: Pokemon.all) { pokemons in
-//            
-//            var p = pokemons
-//            p.removeAll()
-//            
-//            if pokemons.isEmpty {
-//                return EmptyViewController()
-//            }
-//            
-//            return PokemonsTableViewController(pokemons: pokemons)
-//            
-//        }
+        guard let containerVC = self.window?.rootViewController as? ContainerViewController else {
+            fatalError("")
+        }
+        
+        containerVC.load(resource: Pokemon.all) { pokemons in
+            
+            var p = pokemons
+            p.removeAll()
+            
+            if p.isEmpty {
+                return EmptyViewController()
+            }
+            
+            return PokemonsTableViewController(pokemons: pokemons)
+            
+        }
         
         
-        self.rootVC = self.window?.rootViewController as! BaseTabBarViewController
-        self.rootVC.delegate = self.rootVC
+//        self.rootVC = self.window?.rootViewController as! BaseTabBarViewController
+//        self.rootVC.delegate = self.rootVC
         
         return true
     }

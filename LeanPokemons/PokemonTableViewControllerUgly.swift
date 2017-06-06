@@ -8,78 +8,59 @@
 
 import UIKit
 
-class PokemonTableViewControllerUgly: UITableViewController {
+class PokemonTableViewControllerUgly: UITableViewController, SegueHandler {
 
+    private var dataSource :TableDataSource<UITableViewCell,Pokemon>!
+    
     private var pokemons = [[String:Any]]()
+    
+    enum SegueIdentifier : String {
+        case showPokemonDetails = "showPokemonDetails"
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // populate pokemons 
         
-        let url = URL(string: "https://still-wave-26435.herokuapp.com/pokemon/all")!
+        updateTableView()
         
-        URLSession.shared.dataTask(with: url) { data, _, _ in
+    }
+    
+    private func updateTableView() {
+        
+        Webservice().load(Pokemon.all) { [unowned self] pokemons in
             
-            let json = try! JSONSerialization.jsonObject(with: data!, options: [])
-            let dictionaries = json as! [[String:Any]]
-            
-            for dictionary in dictionaries {
-                self.pokemons.append(dictionary)
+            if let pokemons = pokemons {
+                
+                self.dataSource = TableDataSource(cellIdentifier: "Cell", items: pokemons) { cell, pokemon in
+                    cell.textLabel?.text = pokemon.name
+                    
+                }
+                
+                self.tableView.dataSource = self.dataSource
+                self.tableView.reloadData()
             }
             
-            self.tableView.reloadData()
-            
-            
-        }.resume()
+        }
         
-      
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return self.pokemons.count
-    }
-
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let pokemon = self.pokemons[indexPath.row]
-        
-        cell.textLabel?.text = pokemon["name"] as! String
-        
-        return cell
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "showPokemonDetails" {
-            // do something
-            
-            guard let indexPath = self.tableView.indexPathForSelectedRow else {
-                fatalError("IndexPath not defined")
-            }
-            
-            guard let controller = segue.destination as? PokemonDetailsViewController else {
-                fatalError("PokemonDetailsViewController not found")
-            }
-            
-            
-            controller.pokemon = self.pokemons[indexPath.row]
-            
+        switch(segueIdentifier(for: segue)) {
+            case .showPokemonDetails:
+                
+                guard let indexPath = self.tableView.indexPathForSelectedRow else {
+                    fatalError("IndexPath not defined")
+                }
+                
+                guard let controller = segue.destination as? PokemonDetailsViewController else {
+                    fatalError("PokemonDetailsViewController not found")
+                }
+                
+                
+                controller.pokemon = self.pokemons[indexPath.row]
         }
         
     }
