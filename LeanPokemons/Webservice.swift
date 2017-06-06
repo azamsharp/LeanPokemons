@@ -88,15 +88,6 @@ extension App.ShoppingList : Url {
 class Webservice {
     
     
-    func load<T>(resource :Resource<T>,container :ContainerViewController, build :@escaping (T?) -> UIViewController) {
-        
-        Webservice().load(resource) { items in
-            
-            container.add(content: build(items))
-        }
-        
-    }
-    
     func load<T>(_ resource :Resource<T>, completion:@escaping (T?) -> ()) {
         
         var request = URLRequest(url: resource.url)
