@@ -14,21 +14,7 @@ class ContainerViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       // populateTableView()
     }
-    
-//    init<T>(resource :Resource<T>, build: @escaping (T) -> UIViewController) {
-//        
-//        super.init(nibName: nil, bundle: nil)
-//        
-//        Webservice().load(resource) { [unowned self] result in
-//            
-//            if let result = result {
-//                let content = build(result)
-//                self.add(content: content)
-//            }
-//        }
-//    }
     
     func load<T>(resource :Resource<T>, build: @escaping (T) -> UIViewController) {
         
@@ -41,38 +27,9 @@ class ContainerViewController : UIViewController {
         }
     }
 
-    
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    
-    private func populateTableView() {
-        
-        Webservice().load(resource: Pokemon.all, container: self) { [unowned self] pokemons in
-            
-            if let pokemons = pokemons {
-                
-               // add the data source
-            }
-            
-            return EmptyViewController()
-        }
-    }
-    
-    private func instantiatePokemonTableViewController(pokemons :[Pokemon]) -> UIViewController {
-        
-        guard let controller = self.storyboard?.instantiateViewController(withIdentifier: "PokemonsTableViewController") as? PokemonsTableViewController else {
-            fatalError("PokemonsTableViewController does not exist")
-        }
-        
-        controller.pokemons = pokemons
-        return controller
-        
-    }
-    
-    
     
     public func add(content :UIViewController) {
      
